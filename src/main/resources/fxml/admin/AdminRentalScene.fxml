@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.admin.AdminRentalController">
+   <children>
+      <Separator prefHeight="1.0" prefWidth="1035.0" AnchorPane.topAnchor="0.0" />
+      <Label layoutX="338.0" layoutY="24.0" text="Menu wypożyczania sprzętu:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="35.0" layoutY="102.0" prefHeight="411.0" prefWidth="183.0" spacing="15.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="200.0" text="Wybór klienta:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="clientComboBox" onAction="#comboBoxSelection" prefHeight="25.0" prefWidth="205.0" promptText="Wybierz klienta..." />
+            <Label prefHeight="30.0" prefWidth="200.0" text="Wybrany klient:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="clientTextArea" prefHeight="262.0" prefWidth="183.0" />
+         </children>
+      </VBox>
+      <VBox layoutX="275.0" layoutY="102.0" prefHeight="489.0" prefWidth="470.0" spacing="15.0">
+         <children>
+            <HBox prefHeight="25.0" prefWidth="473.0" spacing="20.0">
+               <children>
+                  <TextField fx:id="searchTextField" onKeyPressed="#search" prefHeight="25.0" prefWidth="514.0" promptText="Wyszukaj..." />
+                  <Button fx:id="clearSearch" mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="209.0" text="Wyczyść" />
+               </children>
+            </HBox>
+            <TableView fx:id="itemTable" prefHeight="183.0" prefWidth="473.0">
+               <columns>
+                  <TableColumn fx:id="item_idColumn" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="nameColumn" prefWidth="300.0" text="Nazwa" />
+                  <TableColumn fx:id="bailColumn" prefWidth="120.0" text="Kaucja zwrotna" />
+                  <TableColumn fx:id="rentalpriceColumn" prefWidth="120.0" text="Cena (24h)" />
+                  <TableColumn fx:id="countColumn" prefWidth="105.0" text="Ilość" />
+               </columns>
+            </TableView>
+            <Label prefHeight="30.0" prefWidth="200.0" text="Zamówienie:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TableView fx:id="rentalTable" prefHeight="173.0" prefWidth="473.0">
+               <columns>
+                  <TableColumn fx:id="rental_idColumn" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="rentalNameColumn" prefWidth="344.0" text="Nazwa" />
+                  <TableColumn fx:id="rentalCountColumn" prefWidth="78.0" text="Ilość" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="800.0" layoutY="102.0" prefHeight="461.0" prefWidth="183.0" spacing="15.0">
+         <children>
+            <Button fx:id="createOrderButton" mnemonicParsing="false" onAction="#createOrder" prefHeight="25.0" prefWidth="232.0" text="Złóż zamówienie" />
+            <Button fx:id="generateConfirmationButton" mnemonicParsing="false" onAction="#generateConfirmation" prefHeight="25.0" prefWidth="232.0" text="Generuj potwierdzenie" />
+            <Button fx:id="openConfirmationFolderButton" mnemonicParsing="false" onAction="#openConfirmationFolder" prefHeight="25.0" prefWidth="232.0" text="Otwórz folder potwierdzeń" />
+            <Button fx:id="editOrderButton" mnemonicParsing="false" onAction="#editOrder" prefHeight="25.0" prefWidth="232.0" text="Edytuj zamówienie" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
