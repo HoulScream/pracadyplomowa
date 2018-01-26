@@ -139,6 +139,7 @@ public class AdminRentalController {
     @FXML
     void comboBoxSelection() {
         rentalList.clear();
+        temporaryList.clear();
         refreshOrderTable();
         clientTextArea.setText("Wybrano klienta: \n" +
                 "ID: " + clientComboBox.getValue().getClient_id() + "\n" +
@@ -227,6 +228,7 @@ public class AdminRentalController {
 
             List<ItemEntity> itemList = new ArrayList<>();
             List<ClientEntity> clientList = new ArrayList<>();
+            List<RentalDetailsEntity> rentalDetailsList = new ArrayList<>();
             ClientEntity clientEntity = manager.find(ClientEntity.class, clientComboBox.getValue().getClient_id());
 
             for (RentalTableView item : rentalList) {
@@ -234,11 +236,19 @@ public class AdminRentalController {
                 itemEntity.setClientList(clientList);
                 itemList.add(itemEntity);
                 manager.persist(itemEntity);
+
+                RentalDetailsEntity rentalDetailsEntity = new RentalDetailsEntity();
+                rentalDetailsEntity.setItemId(itemEntity.getItem_id());
+                rentalDetailsEntity.setRentalCount(item.getRental_count());
+                rentalDetailsEntity.setClientList(clientList);
+                rentalDetailsList.add(rentalDetailsEntity);
+                manager.persist(rentalDetailsEntity);
             }
             if (itemList.isEmpty()) {
                 displayErrorDialogBox("Wypożyczanie przedmiotu", "Tabela \"Zamówienie\" nie może być pusta");
             }
             clientEntity.setItemList(itemList);
+            clientEntity.setRentalDetailsList(rentalDetailsList);
             manager.persist(clientEntity);
             transaction.commit();
             displayInfoDialogBox("Wypożyczanie przedmiotu,", "Wypożyczanie przedmiotu(ów) zakończone powodzeniem");
@@ -255,24 +265,6 @@ public class AdminRentalController {
 
     @FXML
     void generateConfirmation(ActionEvent event) {
-        EntityManager manager = Main.emf.createEntityManager();
-        EntityTransaction transaction = null;
-        try {
-            transaction = manager.getTransaction();
-            transaction.begin();
-            RentalinfoEntity rentalinfoEntity = new RentalinfoEntity();
-            manager.persist(rentalinfoEntity);
-            transaction.commit();
-
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            manager.close();
-        }
-
 
     }
 

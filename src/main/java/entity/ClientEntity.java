@@ -16,6 +16,7 @@ public class ClientEntity
     private String nip;
 
     private List<ItemEntity> itemList;
+    private List<RentalDetailsEntity> rentalDetailsList;
 
 
     @Id
@@ -104,5 +105,19 @@ public class ClientEntity
 
     public void setItemList(List<ItemEntity> orderList) {
         this.itemList = orderList;
+    }
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "rentalinfo",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "rental_id")
+    )
+    public List<RentalDetailsEntity> getRentalDetailsList() {
+        return rentalDetailsList;
+    }
+
+    public void setRentalDetailsList(List<RentalDetailsEntity> rentalDetailsList) {
+        this.rentalDetailsList = rentalDetailsList;
     }
 }

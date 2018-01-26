@@ -972,178 +972,223 @@
     <table id="245" parent="2" name="rental">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="246" parent="2" name="rentalinfo">
+    <table id="246" parent="2" name="rentaldetails">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="247" parent="2" name="user">
+    <table id="247" parent="2" name="rentalinfo">
       <Engine>InnoDB</Engine>
     </table>
-    <column id="248" parent="243" name="client_id">
+    <table id="248" parent="2" name="user">
+      <Engine>InnoDB</Engine>
+    </table>
+    <column id="249" parent="243" name="client_id">
       <Position>1</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="243" name="name">
+    <column id="250" parent="243" name="name">
       <Position>2</Position>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="243" name="address">
+    <column id="251" parent="243" name="address">
       <Position>3</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="243" name="postalcode">
+    <column id="252" parent="243" name="postalcode">
       <Position>4</Position>
       <DataType>varchar(100)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="243" name="phonenumber">
+    <column id="253" parent="243" name="phonenumber">
       <Position>5</Position>
       <DataType>varchar(15)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="253" parent="243" name="nip">
+    <column id="254" parent="243" name="nip">
       <Position>6</Position>
       <DataType>varchar(13)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="254" parent="243" name="PRIMARY">
+    <key id="255" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>client_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="255" parent="244" name="item_id">
+    <column id="256" parent="244" name="item_id">
       <Position>1</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="244" name="name">
+    <column id="257" parent="244" name="name">
       <Position>2</Position>
       <DataType>varchar(200)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="244" name="bail">
+    <column id="258" parent="244" name="bail">
       <Position>3</Position>
       <DataType>double(10,2)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="258" parent="244" name="rentalprice">
+    <column id="259" parent="244" name="rentalprice">
       <Position>4</Position>
       <DataType>double(10,2)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="244" name="count">
+    <column id="260" parent="244" name="count">
       <Position>5</Position>
       <DataType>int(4)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="260" parent="244" name="PRIMARY">
+    <key id="261" parent="244" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>item_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="261" parent="245" name="client_id">
+    <column id="262" parent="245" name="client_id">
       <Position>1</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="262" parent="245" name="item_id">
+    <column id="263" parent="245" name="item_id">
       <Position>2</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="263" parent="245" name="fk_client">
+    <index id="264" parent="245" name="fk_client">
       <ColNames>client_id</ColNames>
     </index>
-    <index id="264" parent="245" name="fk_item">
+    <index id="265" parent="245" name="fk_item">
       <ColNames>item_id</ColNames>
     </index>
-    <key id="265" parent="245" name="PRIMARY">
+    <key id="266" parent="245" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>client_id
 item_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="266" parent="245" name="fk_client">
+    <foreign-key id="267" parent="245" name="fk_client">
       <ColNames>client_id</ColNames>
       <RefSchemaName>appdb</RefSchemaName>
       <RefTableName>client</RefTableName>
       <RefColNames>client_id</RefColNames>
     </foreign-key>
-    <foreign-key id="267" parent="245" name="fk_item">
+    <foreign-key id="268" parent="245" name="fk_item">
       <ColNames>item_id</ColNames>
       <RefSchemaName>appdb</RefSchemaName>
       <RefTableName>item</RefTableName>
       <RefColNames>item_id</RefColNames>
     </foreign-key>
-    <column id="268" parent="246" name="rental_id">
+    <column id="269" parent="246" name="rental_id">
       <Position>1</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="246" name="rental_time">
+    <column id="270" parent="246" name="item_id">
       <Position>2</Position>
+      <DataType>int(10)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="271" parent="246" name="rental_date">
+      <Position>3</Position>
       <DataType>timestamp|0</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
       <OnUpdate>CURRENT_TIMESTAMP</OnUpdate>
     </column>
-    <column id="270" parent="246" name="rental_count">
-      <Position>3</Position>
-      <DataType>int(10)|0</DataType>
+    <column id="272" parent="246" name="rental_count">
+      <Position>4</Position>
+      <DataType>int(4)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="271" parent="246" name="PRIMARY">
+    <key id="273" parent="246" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>rental_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="272" parent="247" name="user_id">
+    <column id="274" parent="247" name="client_id">
+      <Position>1</Position>
+      <DataType>int(10)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="275" parent="247" name="rental_id">
+      <Position>2</Position>
+      <DataType>int(10)|0</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="276" parent="247" name="fk_rentalinfo">
+      <ColNames>client_id</ColNames>
+    </index>
+    <index id="277" parent="247" name="fk_rental">
+      <ColNames>rental_id</ColNames>
+    </index>
+    <key id="278" parent="247" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>client_id
+rental_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="279" parent="247" name="fk_rentalinfo">
+      <ColNames>client_id</ColNames>
+      <RefSchemaName>appdb</RefSchemaName>
+      <RefTableName>client</RefTableName>
+      <RefColNames>client_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="280" parent="247" name="fk_rental">
+      <ColNames>rental_id</ColNames>
+      <RefSchemaName>appdb</RefSchemaName>
+      <RefTableName>rentaldetails</RefTableName>
+      <RefColNames>rental_id</RefColNames>
+    </foreign-key>
+    <column id="281" parent="248" name="user_id">
       <Position>1</Position>
       <DataType>int(10)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="247" name="login">
+    <column id="282" parent="248" name="login">
       <Position>2</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="274" parent="247" name="password">
+    <column id="283" parent="248" name="password">
       <Position>3</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="275" parent="247" name="admin">
+    <column id="284" parent="248" name="admin">
       <Position>4</Position>
       <DataType>int(1)|0</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="276" parent="247" name="PRIMARY">
+    <key id="285" parent="248" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
