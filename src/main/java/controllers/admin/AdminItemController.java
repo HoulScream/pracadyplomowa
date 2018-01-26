@@ -7,8 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import entity.Item;
-import entity.ItemDAO;
+import dao.ItemDAO;
+import tableview.ItemTableView;
 
 import java.util.Optional;
 
@@ -16,10 +16,10 @@ public class AdminItemController {
     private int selectedItemId;
 
     @FXML
-    private TableColumn<Item, Integer> countColumn;
+    private TableColumn<ItemTableView, Integer> countColumn;
 
     @FXML
-    private TableView<Item> itemTable;
+    private TableView<ItemTableView> itemTable;
 
     @FXML
     private TextField nameTextField;
@@ -28,7 +28,7 @@ public class AdminItemController {
     private Button cleanButton;
 
     @FXML
-    private TableColumn<Item, Double> rentalpriceColumn;
+    private TableColumn<ItemTableView, Double> rentalpriceColumn;
 
     @FXML
     private Button addButton;
@@ -43,13 +43,13 @@ public class AdminItemController {
     private Button clearSearch;
 
     @FXML
-    private TableColumn<Item, Integer> item_idColumn;
+    private TableColumn<ItemTableView, Integer> item_idColumn;
 
     @FXML
-    private TableColumn<Item, Double> bailColumn;
+    private TableColumn<ItemTableView, Double> bailColumn;
 
     @FXML
-    private TableColumn<Item, String> nameColumn;
+    private TableColumn<ItemTableView, String> nameColumn;
 
     @FXML
     private Button refreshButton;
@@ -152,8 +152,8 @@ public class AdminItemController {
         clearForm();
 
         //wyszukiwanie
-        ObservableList<Item> masterData = ItemDAO.getItemList();
-        FilteredList<Item> filteredData = new FilteredList<>(masterData, p -> true);
+        ObservableList<ItemTableView> masterData = ItemDAO.getItemList();
+        FilteredList<ItemTableView> filteredData = new FilteredList<>(masterData, p -> true);
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(item -> {
             if (newValue == null || newValue.isEmpty()) {
@@ -163,7 +163,7 @@ public class AdminItemController {
 
             return item.getName().toLowerCase().contains(lowerCaseFilter);
         }));
-        SortedList<Item> sortedData = new SortedList<>(filteredData);
+        SortedList<ItemTableView> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(itemTable.comparatorProperty());
         itemTable.setItems(sortedData);
     }
@@ -175,11 +175,11 @@ public class AdminItemController {
 
     @FXML
     void refreshTable() {
-        ObservableList<Item> observableList = ItemDAO.getItemList();
+        ObservableList<ItemTableView> observableList = ItemDAO.getItemList();
         itemTable.setItems(observableList);
     }
 
-    private void fillFormWithRowValue(Item item) {
+    private void fillFormWithRowValue(ItemTableView item) {
         selectedItemId = item.getItem_id();
         nameTextField.setText(item.getName());
         bailTextField.setText(Double.toString(item.getBail()));
@@ -222,10 +222,10 @@ public class AdminItemController {
 
         //select, unselect
         itemTable.setRowFactory(tableView2 -> {
-            final TableRow<Item> row = new TableRow<>();
+            final TableRow<ItemTableView> row = new TableRow<>();
             row.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                 final int index = row.getIndex();
-                Item clickedRow = row.getItem();
+                ItemTableView clickedRow = row.getItem();
                 if (!row.isEmpty()) {
                     fillFormWithRowValue(clickedRow);
                     addButton.setDisable(true);

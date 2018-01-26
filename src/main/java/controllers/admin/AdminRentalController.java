@@ -1,6 +1,8 @@
 package controllers.admin;
 
 import common.Main;
+import dao.ClientDAO;
+import dao.ItemDAO;
 import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,15 +11,15 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import tableview.ClientTableView;
+import tableview.ItemTableView;
+import tableview.RentalTableView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class AdminRentalController {
 
@@ -34,58 +36,58 @@ public class AdminRentalController {
     private Button openConfirmationDirectoryButton;
 
     @FXML
-    private TableColumn<Item, Integer> item_idColumn;
+    private TableColumn<ItemTableView, Integer> item_idColumn;
 
     @FXML
-    private TableColumn<Item, Double> bailColumn;
+    private TableColumn<ItemTableView, Double> bailColumn;
 
     @FXML
-    private TableColumn<Item, String> nameColumn;
+    private TableColumn<ItemTableView, String> nameColumn;
 
     @FXML
-    private TableColumn<Item, Double> rentalpriceColumn;
+    private TableColumn<ItemTableView, Double> rentalpriceColumn;
 
     @FXML
-    private TableColumn<Item, Integer> countColumn;
+    private TableColumn<ItemTableView, Integer> countColumn;
 
     @FXML
-    private TableColumn<Item, String> itemNameColumn;
-
-    @FXML
-    private TableColumn<Item, Integer> rentalCountColumn;
-
-    @FXML
-    private TableColumn<Item, String> rentalNameColumn;
+    private TableColumn<ItemTableView, String> itemNameColumn;
 
     @FXML
     private Button clearSearch;
-
-
-    @FXML
-    private TableColumn<Item, Integer> rental_idColumn;
 
     @FXML
     private TextArea clientTextArea;
 
     @FXML
-    private ComboBox<Client> clientComboBox;
+    private ComboBox<ClientTableView> clientComboBox;
 
     @FXML
-    private TableView<Item> itemTable;
+    private TableView<ItemTableView> itemTable;
 
     @FXML
     private TextField searchTextField;
 
     @FXML
-    private TableView<Item> rentalTable;
+    private TableView<RentalTableView> rentalTable;
 
-    private ObservableList<Item> rentalList = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<RentalTableView, Integer> rental_idColumn;
+
+    @FXML
+    private TableColumn<RentalTableView, String> rentalNameColumn;
+
+    @FXML
+    private TableColumn<RentalTableView, Integer> rentalCountColumn;
+
+    private ObservableList<ItemTableView> temporaryList = FXCollections.observableArrayList();
+    private ObservableList<RentalTableView> rentalList = FXCollections.observableArrayList();
 
     @FXML
     void search() {
         //wyszukiwanie
-        ObservableList<Item> masterData = ItemDAO.getItemList();
-        FilteredList<Item> filteredData = new FilteredList<>(masterData, p -> true);
+        ObservableList<ItemTableView> masterData = ItemDAO.getItemList();
+        FilteredList<ItemTableView> filteredData = new FilteredList<>(masterData, p -> true);
 
         searchTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(item -> {
             if (newValue == null || newValue.isEmpty()) {
@@ -95,7 +97,7 @@ public class AdminRentalController {
 
             return item.getName().toLowerCase().contains(lowerCaseFilter);
         }));
-        SortedList<Item> sortedData = new SortedList<>(filteredData);
+        SortedList<ItemTableView> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(itemTable.comparatorProperty());
         itemTable.setItems(sortedData);
     }
@@ -105,22 +107,39 @@ public class AdminRentalController {
         searchTextField.clear();
     }
 
-    private void addToOrder(Item rowData) {
-        if (!rentalList.contains(rowData)) {
-            rentalList.add(rowData);
-            refreshOrderTable();
+    private void addToOrder(ItemTableView rowData) {
+        if (!temporaryList.contains(rowData)) {
+            TextInputDialog dialog = new TextInputDialog("1");
+            dialog.setTitle("Dodawanie do zamówienia");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Proszę podać ilość:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                String res = result.get().toString();
+                if (res.matches("^\\d+$")) {
+                    temporaryList.add(rowData);
+                    rentalList.add(new RentalTableView(rowData.getItem_id(), rowData.getName(), Integer.parseInt(res)));
+                    refreshOrderTable();
+                } else {
+                    displayErrorDialogBox("Dodawanie do zamówienia", "Podana wartość musi być liczbą całkowitą");
+                }
+            }
         } else {
             displayErrorDialogBox("Dodawanie do zamówienia", "Wybrany przedmiot znajduje się już na liście zamówienia.");
         }
     }
 
-    private void removeFromOrder(Item rowData) {
-        rentalList.remove(rowData);
+    private void removeFromOrder() {
+
+        temporaryList.remove(rentalTable.getSelectionModel().getSelectedIndex());
+        rentalList.remove(rentalTable.getSelectionModel().getSelectedItem());
         refreshOrderTable();
     }
 
     @FXML
     void comboBoxSelection() {
+        rentalList.clear();
+        refreshOrderTable();
         clientTextArea.setText("Wybrano klienta: \n" +
                 "ID: " + clientComboBox.getValue().getClient_id() + "\n" +
                 "Nazwa: " + clientComboBox.getValue().getName() + "\n" +
@@ -128,11 +147,39 @@ public class AdminRentalController {
                 "Kod pocztowy: " + clientComboBox.getValue().getPostalcode() + "\n" +
                 "Telefon: " + clientComboBox.getValue().getTelephonenumber() + "\n" +
                 "NIP: " + clientComboBox.getValue().getNip());
+
+        ClientEntity clientEntity = null;
+        EntityManager manager = Main.emf.createEntityManager();
+        EntityTransaction transaction = null;
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            clientEntity = manager.find(ClientEntity.class, clientComboBox.getValue().getClient_id());
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        if (!clientEntity.getItemList().isEmpty() || clientEntity.getItemList() == null) {
+            itemTable.setDisable(true);
+            rentalTable.setDisable(true);
+            createOrderButton.setDisable(true);
+            displayErrorDialogBox("Wypożyczanie przedmiotu", "Wybrany klient złożył już zamówienie, przyjmij zwrot poprzedniego zamówienia aby wygenerować nowe.");
+        } else {
+            itemTable.setDisable(false);
+            rentalTable.setDisable(false);
+            createOrderButton.setDisable(false);
+        }
+        transaction.commit();
     }
 
     @FXML
     void refreshItemTable() {
-        ObservableList<Item> observableList = ItemDAO.getItemList();
+        ObservableList<ItemTableView> observableList = ItemDAO.getItemList();
         itemTable.setItems(observableList);
     }
 
@@ -141,12 +188,32 @@ public class AdminRentalController {
         rentalTable.setItems(rentalList);
     }
 
+    private void displayInfoDialogBox(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private void displayErrorDialogBox(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private Optional<String> displayInputDialogBox(String title, String message, String defaultvalue) {
+        TextInputDialog dialog = new TextInputDialog(defaultvalue);
+        dialog.setTitle(title);
+        dialog.setHeaderText(null);
+        dialog.setContentText(message);
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            System.out.println("Your name: " + result.get());
+        }
+        return result;
     }
 
     @FXML
@@ -162,93 +229,114 @@ public class AdminRentalController {
             List<ClientEntity> clientList = new ArrayList<>();
             ClientEntity clientEntity = manager.find(ClientEntity.class, clientComboBox.getValue().getClient_id());
 
-            for (Item item: rentalList) {
-                // use currInstance
-
+            for (RentalTableView item : rentalList) {
                 ItemEntity itemEntity = manager.find(ItemEntity.class, item.getItem_id());
                 itemEntity.setClientList(clientList);
                 itemList.add(itemEntity);
                 manager.persist(itemEntity);
             }
+            if (itemList.isEmpty()) {
+                displayErrorDialogBox("Wypożyczanie przedmiotu", "Tabela \"Zamówienie\" nie może być pusta");
+            }
             clientEntity.setItemList(itemList);
             manager.persist(clientEntity);
             transaction.commit();
+            displayInfoDialogBox("Wypożyczanie przedmiotu,", "Wypożyczanie przedmiotu(ów) zakończone powodzeniem");
 
-        } catch (Exception e)
-        {
-            if (transaction != null)
-            {
+        } catch (Exception e) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
-        } finally
-        {
+        } finally {
             manager.close();
         }
     }
 
+    @FXML
+    void generateConfirmation(ActionEvent event) {
+        EntityManager manager = Main.emf.createEntityManager();
+        EntityTransaction transaction = null;
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            RentalinfoEntity rentalinfoEntity = new RentalinfoEntity();
+            manager.persist(rentalinfoEntity);
+            transaction.commit();
 
-        @FXML
-        void generateConfirmation (ActionEvent event){
-
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            manager.close();
         }
 
-        @FXML
-        void openConfirmationFolder (ActionEvent event){
 
-        }
-
-        @FXML
-        void editOrder (ActionEvent event){
-
-        }
-
-
-        public void initialize () {
-            //wypelnianie combobox
-            ObservableList<Client> clientList = ClientDAO.getClientList();
-            clientComboBox.setItems(clientList);
-
-            //inicjalizacja tabeli Przedmioty
-            item_idColumn.setCellValueFactory(cellData -> cellData.getValue().item_idProperty().asObject());
-            nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-            bailColumn.setCellValueFactory(cellData -> cellData.getValue().bailProperty().asObject());
-            rentalpriceColumn.setCellValueFactory(cellData -> cellData.getValue().rentalpriceProperty().asObject());
-            countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
-
-            //inicjalizacja tabeli Zamówienie
-            rental_idColumn.setCellValueFactory(cellData -> cellData.getValue().item_idProperty().asObject());
-            rentalNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-            //rentalCountColumn.setCellValueFactory(cellData -> cellData.getValue().);
-
-            //wyswietlenie tabeli
-            refreshItemTable();
-
-            //wyłączenie textarea
-            clientTextArea.setEditable(false);
-
-            //doubleclick tabeli Przedmioty
-            itemTable.setRowFactory(tv -> {
-                TableRow<Item> row = new TableRow<>();
-                row.setOnMouseClicked(event -> {
-                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                        Item rowData = row.getItem();
-                        addToOrder(rowData);
-                    }
-                });
-                return row;
-            });
-
-            //doubleclick tabeli Zamówienie
-            rentalTable.setRowFactory(tv -> {
-                TableRow<Item> row = new TableRow<>();
-                row.setOnMouseClicked(event -> {
-                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                        Item rowData = row.getItem();
-                        removeFromOrder(rowData);
-                    }
-                });
-                return row;
-            });
-        }
     }
+
+    @FXML
+    void openConfirmationFolder(ActionEvent event) {
+
+    }
+
+    @FXML
+    void editOrder(ActionEvent event) {
+
+    }
+
+
+    public void initialize() {
+        //wypelnianie combobox
+        ObservableList<ClientTableView> clientTableViewList = ClientDAO.getClientList();
+        clientComboBox.setItems(clientTableViewList);
+
+        //blokowanie pól
+        rentalTable.setDisable(true);
+        itemTable.setDisable(true);
+        createOrderButton.setDisable(true);
+
+        //inicjalizacja tabeli Przedmioty
+        item_idColumn.setCellValueFactory(cellData -> cellData.getValue().item_idProperty().asObject());
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        bailColumn.setCellValueFactory(cellData -> cellData.getValue().bailProperty().asObject());
+        rentalpriceColumn.setCellValueFactory(cellData -> cellData.getValue().rentalpriceProperty().asObject());
+        countColumn.setCellValueFactory(cellData -> cellData.getValue().countProperty().asObject());
+
+        //inicjalizacja tabeli Zamówienie
+        rental_idColumn.setCellValueFactory(cellData -> cellData.getValue().item_idProperty().asObject());
+        rentalNameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        rentalCountColumn.setCellValueFactory(cellData -> cellData.getValue().rental_countProperty().asObject());
+
+        //wyswietlenie tabeli
+        refreshItemTable();
+
+        //wyłączenie textarea
+        clientTextArea.setEditable(false);
+
+        //doubleclick tabeli Przedmioty
+        itemTable.setRowFactory(tv -> {
+            TableRow<ItemTableView> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    ItemTableView rowData = row.getItem();
+                    addToOrder(rowData);
+                }
+            });
+            return row;
+        });
+
+        //doubleclick tabeli Zamówienie
+        rentalTable.setRowFactory(tv -> {
+            TableRow<RentalTableView> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    RentalTableView rowData = row.getItem();
+                    removeFromOrder();
+                }
+            });
+            return row;
+        });
+    }
+}

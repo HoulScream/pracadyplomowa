@@ -1,15 +1,16 @@
-package entity;
+package tableview;
 
 import javafx.beans.property.*;
 
-public class Item {
+public class ItemTableView {
     private IntegerProperty item_id;
     private StringProperty name;
     private DoubleProperty bail;
     private DoubleProperty rentalprice;
     private IntegerProperty count;
 
-    public Item(int item_id, String name, double bail, double rentalprice, int count) {
+
+    public ItemTableView(int item_id, String name, double bail, double rentalprice, int count) {
         this.item_id = new SimpleIntegerProperty(item_id);
         this.name = new SimpleStringProperty(name);
         this.bail = new SimpleDoubleProperty(bail);
@@ -76,4 +77,5 @@ public class Item {
     public void setCount(int count) {
         this.count.set(count);
     }
+
 }

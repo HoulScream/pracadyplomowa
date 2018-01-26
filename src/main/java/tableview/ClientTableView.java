@@ -1,11 +1,11 @@
-package entity;
+package tableview;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Client {
+public class ClientTableView {
     private IntegerProperty client_id;
     private StringProperty name;
     private StringProperty address;
@@ -13,7 +13,7 @@ public class Client {
     private StringProperty telephonenumber;
     private StringProperty nip;
 
-    public Client(int client_id, String name, String address, String postalcode, String phonenumber, String nip) {
+    public ClientTableView(int client_id, String name, String address, String postalcode, String phonenumber, String nip) {
         this.client_id = new SimpleIntegerProperty(client_id);
         this.name = new SimpleStringProperty(name);
         this.address = new SimpleStringProperty(address);

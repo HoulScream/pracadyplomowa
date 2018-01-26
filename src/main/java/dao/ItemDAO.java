@@ -1,19 +1,21 @@
-package entity;
+package dao;
 
 import common.Main;
+import entity.ItemEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import tableview.ItemTableView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class ClientDAO
+public class ItemDAO
 {
 
-    public static ObservableList<Client> getClientList()
+    public static ObservableList<ItemTableView> getItemList()
     {
-        List<ClientEntity> list = null;
+        List<ItemEntity> list = null;
 
         EntityManager manager = Main.emf.createEntityManager();
         EntityTransaction transaction = null;
@@ -23,7 +25,7 @@ public class ClientDAO
             transaction = manager.getTransaction();
             transaction.begin();
 
-            list = manager.createQuery("select c from ClientEntity as c", ClientEntity.class).getResultList();
+            list = manager.createQuery("select i from ItemEntity as i", ItemEntity.class).getResultList();
             transaction.commit();
         } catch (Exception e)
         {
@@ -36,15 +38,15 @@ public class ClientDAO
         {
             manager.close();
         }
-        ObservableList<Client> observableList = FXCollections.observableArrayList();
-        for (ClientEntity n : list)
+        ObservableList<ItemTableView> observableList = FXCollections.observableArrayList();
+        for (ItemEntity n : list)
         {
-            observableList.add(new Client(n.getClient_id(), n.getName(), n.getAddress(), n.getPostalcode(), n.getPhonenumber(), n.getNip()));
+            observableList.add(new ItemTableView(n.getItem_id(), n.getName(), n.getBail(), n.getRentalprice(), n.getCount()));
         }
         return observableList;
     }
 
-    public static void addClient(String name, String addresss, String postalcode, String phonenumber, String nip)
+    public static void addItem(String name, double bail, double rentalprice, int count)
     {
         EntityManager manager = Main.emf.createEntityManager();
         EntityTransaction transaction = null;
@@ -54,13 +56,12 @@ public class ClientDAO
             transaction = manager.getTransaction();
             transaction.begin();
 
-            ClientEntity clientEntity = new ClientEntity();
-            clientEntity.setName(name);
-            clientEntity.setAddress(addresss);
-            clientEntity.setPostalcode(postalcode);
-            clientEntity.setPhonenumber(phonenumber);
-            clientEntity.setNip(nip);
-            manager.persist(clientEntity);
+            ItemEntity itemEntity = new ItemEntity();
+            itemEntity.setName(name);
+            itemEntity.setBail(bail);
+            itemEntity.setRentalprice(rentalprice);
+            itemEntity.setCount(count);
+            manager.persist(itemEntity);
             transaction.commit();
         } catch (Exception e)
         {
@@ -75,7 +76,7 @@ public class ClientDAO
         }
     }
 
-    public static void editClient(Integer id, String name, String address, String postalcode, String phonenumber, String nip)
+    public static void editItem(Integer id, String name, double bail, double rentalprice, int count)
     {
         EntityManager manager = Main.emf.createEntityManager();
         EntityTransaction transaction = null;
@@ -84,13 +85,13 @@ public class ClientDAO
         {
             transaction = manager.getTransaction();
             transaction.begin();
-            ClientEntity client = manager.find(ClientEntity.class, id);
-            client.setName(name);
-            client.setAddress(address);
-            client.setPostalcode(postalcode);
-            client.setPhonenumber(phonenumber);
-            client.setNip(nip);
-            manager.persist(client);
+
+            ItemEntity itemEntity = manager.find(ItemEntity.class, id);
+            itemEntity.setName(name);
+            itemEntity.setBail(bail);
+            itemEntity.setRentalprice(rentalprice);
+            itemEntity.setCount(count);
+            manager.persist(itemEntity);
             transaction.commit();
         } catch (Exception e)
         {
@@ -105,7 +106,7 @@ public class ClientDAO
         }
     }
 
-    public static void removeClient(Integer id)
+    public static void removeItem(Integer id)
     {
         EntityManager manager = Main.emf.createEntityManager();
         EntityTransaction transaction = null;
@@ -114,8 +115,8 @@ public class ClientDAO
         {
             transaction = manager.getTransaction();
             transaction.begin();
-            ClientEntity client = manager.find(ClientEntity.class, id);
-            manager.remove(client);
+            ItemEntity itemEntity = manager.find(ItemEntity.class, id);
+            manager.remove(itemEntity);
             transaction.commit();
         } catch (Exception e)
         {

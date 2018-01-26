@@ -12,6 +12,7 @@ public class ItemEntity {
     private double rentalprice;
     private int count;
 
+    private List<RentalinfoEntity rentalInfoList;
     private List<ClientEntity> clientList;
 
     @Id
@@ -72,5 +73,14 @@ public class ItemEntity {
 
     public void setClientList(List<ClientEntity> clientList) {
         this.clientList = clientList;
+    }
+
+    @ManyToMany(mappedBy = "rentalItemList")
+    public List<RentalinfoEntity> getRentalInfoList() {
+        return rentalInfoList;
+    }
+
+    public void setRentalInfoList(List<RentalinfoEntity> rentalInfoList) {
+        this.rentalInfoList = rentalInfoList;
     }
 }

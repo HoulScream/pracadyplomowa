@@ -7,8 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import entity.Client;
-import entity.ClientDAO;
+import tableview.ClientTableView;
+import dao.ClientDAO;
 
 import java.util.Optional;
 
@@ -19,19 +19,19 @@ public class AdminClientController {
     private TextField nipTextField;
 
     @FXML
-    private TableColumn<Client, String> addressColumn;
+    private TableColumn<ClientTableView, String> addressColumn;
 
     @FXML
-    private TableColumn<Client, Integer> client_idColumn;
+    private TableColumn<ClientTableView, Integer> client_idColumn;
 
     @FXML
-    private TableView<Client> clientTable;
+    private TableView<ClientTableView> clientTable;
 
     @FXML
     private TextField addressTextField;
 
     @FXML
-    private TableColumn<Client, String> phonenumberColumn;
+    private TableColumn<ClientTableView, String> phonenumberColumn;
 
     @FXML
     private TextField nameTextField;
@@ -46,7 +46,7 @@ public class AdminClientController {
     private Button addButton;
 
     @FXML
-    private TableColumn<Client, String> nipColumn;
+    private TableColumn<ClientTableView, String> nipColumn;
 
     @FXML
     private TextField searchTextField;
@@ -55,10 +55,10 @@ public class AdminClientController {
     private TextField phonenumberTextField;
 
     @FXML
-    private TableColumn<Client, String> postalcodeColumn;
+    private TableColumn<ClientTableView, String> postalcodeColumn;
 
     @FXML
-    private TableColumn<Client, String> nameColumn;
+    private TableColumn<ClientTableView, String> nameColumn;
 
     @FXML
     private Button refreshButton;
@@ -124,18 +124,18 @@ public class AdminClientController {
         clearForm();
 
         //wyszukiwanie
-        ObservableList<Client> masterData = ClientDAO.getClientList();
-        FilteredList<Client> filteredData = new FilteredList<>(masterData, p -> true);
+        ObservableList<ClientTableView> masterData = ClientDAO.getClientList();
+        FilteredList<ClientTableView> filteredData = new FilteredList<>(masterData, p -> true);
 
-        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(client -> {
+        searchTextField.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(clientTableView -> {
             if (newValue == null || newValue.isEmpty()) {
                 return true;
             }
             String lowerCaseFilter = newValue.toLowerCase();
 
-            return client.getName().toLowerCase().contains(lowerCaseFilter);
+            return clientTableView.getName().toLowerCase().contains(lowerCaseFilter);
         }));
-        SortedList<Client> sortedData = new SortedList<>(filteredData);
+        SortedList<ClientTableView> sortedData = new SortedList<>(filteredData);
         sortedData.comparatorProperty().bind(clientTable.comparatorProperty());
         clientTable.setItems(sortedData);
     }
@@ -154,7 +154,7 @@ public class AdminClientController {
 
     @FXML
     void refreshTable() {
-        ObservableList<Client> observableList = ClientDAO.getClientList();
+        ObservableList<ClientTableView> observableList = ClientDAO.getClientList();
         clientTable.setItems(observableList);
     }
 
@@ -182,10 +182,10 @@ public class AdminClientController {
 
         //select, unselect
         clientTable.setRowFactory(tableView2 -> {
-            final TableRow<Client> row = new TableRow<>();
+            final TableRow<ClientTableView> row = new TableRow<>();
             row.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                 final int index = row.getIndex();
-                Client clickedRow = row.getItem();
+                ClientTableView clickedRow = row.getItem();
                 if (!row.isEmpty()) {
                     fillFormWithRowValue(clickedRow);
                     addButton.setDisable(true);
@@ -202,7 +202,7 @@ public class AdminClientController {
         });
     }
 
-    private void fillFormWithRowValue(Client item) {
+    private void fillFormWithRowValue(ClientTableView item) {
         selectedClientId = item.getClient_id();
         nameTextField.setText(item.getName());
         addressTextField.setText(item.getAddress());
