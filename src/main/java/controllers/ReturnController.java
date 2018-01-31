@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 
+import static common.ConfigurationBuilder.returnconfirmationfolder;
 import static common.DialogBoxBuilder.displayErrorDialogBox;
 import static common.DialogBoxBuilder.displayInfoDialogBox;
 import static common.PDFBuilder.generateReturnConfirmation;
@@ -135,7 +136,7 @@ public class ReturnController {
 
     @FXML
     void openReturnConfirmationFolder() throws IOException {
-        Desktop.getDesktop().open(new File("D:\\Dokumenty\\Praca Inżynierska\\pracadyplomowa\\confirmation\\return"));
+        Desktop.getDesktop().open(new File(returnconfirmationfolder));
     }
 
     private void refreshReturnTable() {

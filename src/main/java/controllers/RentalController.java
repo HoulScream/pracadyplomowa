@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
+import static common.ConfigurationBuilder.orderconfirmationfolder;
 import static common.DialogBoxBuilder.displayErrorDialogBox;
 import static common.DialogBoxBuilder.displayInfoDialogBox;
 import static common.PDFBuilder.generateRentalConfirmation;
@@ -253,7 +254,7 @@ public class RentalController {
 
     @FXML
     void openConfirmationFolder() throws IOException {
-        Desktop.getDesktop().open(new File("D:\\Dokumenty\\Praca Inżynierska\\pracadyplomowa\\confirmation\\rent"));
+        Desktop.getDesktop().open(new File(orderconfirmationfolder));
     }
 
 
