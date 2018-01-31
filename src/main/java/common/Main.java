@@ -1,15 +1,15 @@
 package common;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+        import javafx.application.Application;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Scene;
+        import javafx.scene.layout.AnchorPane;
+        import javafx.stage.Stage;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+        import javax.persistence.EntityManagerFactory;
+        import javax.persistence.Persistence;
 
-import static common.ConfigurationBuilder.loadConfiguration;
+        import static common.ConfigurationBuilder.loadConfiguration;
 
 
 public class Main extends Application

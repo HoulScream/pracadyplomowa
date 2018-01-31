@@ -6,7 +6,6 @@ import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import org.jasypt.util.text.BasicTextEncryptor;
 import tableview.ClientTableView;
 import dao.ClientDAO;
 import java.util.Optional;
@@ -167,17 +166,6 @@ public class ClientController {
 
     @FXML
     public void initialize() {
-        //test szyfrowania
-        String szyfrowanie = "teXt do Zaszyfrowania";
-        String myPassword = "Kashikume9701";
-        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-        textEncryptor.setPassword(myPassword);
-        String zaszyfrowane = textEncryptor.encrypt(szyfrowanie);
-        System.out.println(zaszyfrowane);
-        String odszyfrowane = textEncryptor.decrypt(zaszyfrowane);
-        System.out.println(odszyfrowane);
-
-
 
         //inicjalizacja tabeli
         client_idColumn.setCellValueFactory(cellData -> cellData.getValue().client_idProperty().asObject());
