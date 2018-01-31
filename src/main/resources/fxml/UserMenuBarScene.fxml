@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserMenuBarController">
+   <children>
+      <HBox alignment="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="50.0" prefWidth="1000.0" spacing="20.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="12.0">
+         <children>
+            <Button fx:id="mainSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserMainScene" prefHeight="50.0" prefWidth="120.0" text="Strona główna" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="clientSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserClientScene" prefHeight="50.0" prefWidth="120.0" text="Klient" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="itemSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserItemScene" prefHeight="50.0" prefWidth="120.0" text="Przedmiot" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="rentalSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserRentalScene" prefHeight="50.0" prefWidth="120.0" text="Wypożycz przedmiot" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="returnSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserReturnScene" prefHeight="50.0" prefWidth="120.0" text="Zwrot przedmiotu" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="manageSceneButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showUserOutdatedScene" prefHeight="50.0" prefWidth="120.0" text="Przetrzymane przedmioty" textAlignment="CENTER" wrapText="true" />
+            <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="120.0" text="Wyloguj" textAlignment="CENTER" wrapText="true" />
+         </children>
+      </HBox>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>

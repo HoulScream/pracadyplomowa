@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="adminWindowScene" maxHeight="768.0" maxWidth="1024.0" minHeight="768.0" minWidth="1024.0" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-image: url('/images/background.jpg')" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdminWindowController">
+    <top>
+        <VBox maxHeight="75.0" maxWidth="1024.0" minHeight="75.0" minWidth="1024.0" prefHeight="75.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+           <children>
+               <fx:include fx:id="adminMenuBar" source="AdminMenuBarScene.fxml" />
+           </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox maxHeight="693.0" maxWidth="1024.0" minHeight="693.0" minWidth="1024.0" prefHeight="693.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
+            <children>
+                <fx:include fx:id="adminMainScene" source="AdminMainScene.fxml" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

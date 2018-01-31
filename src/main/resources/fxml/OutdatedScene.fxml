@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.OutdatedController">
+   <children>
+      <Separator prefHeight="1.0" prefWidth="1035.0" AnchorPane.topAnchor="0.0" />
+      <Label layoutX="310.0" layoutY="14.0" text="Menu przetrzymanych przedmiotów:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <VBox layoutX="32.0" layoutY="103.0" prefHeight="515.0" prefWidth="681.0" spacing="15.0">
+         <children>
+            <HBox prefHeight="30.0" prefWidth="682.0" spacing="20.0">
+               <children>
+                  <TextField fx:id="searchTextField" onKeyPressed="#search" prefHeight="30.0" prefWidth="514.0" promptText="Wyszukaj..." />
+                  <Button fx:id="clearSearch" mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="209.0" text="Wyczyść" />
+               </children>
+            </HBox>
+            <TableView fx:id="outdatedTable" prefHeight="469.0" prefWidth="682.0">
+               <columns>
+                  <TableColumn fx:id="outdatedIdColumn" prefWidth="50.0" text="ID" />
+                  <TableColumn fx:id="outdatedNameColumn" prefWidth="360.0" text="Nazwa" />
+                  <TableColumn fx:id="outdatedCountColumn" prefWidth="75.0" text="Ilość" />
+                  <TableColumn fx:id="outdatedRentalDate" prefWidth="120.0" text="Data wypożyczenia" />
+                  <TableColumn fx:id="outdatedDays" prefWidth="75.0" text="Liczba dni" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="742.0" layoutY="167.0" prefHeight="387.0" prefWidth="268.0" spacing="15.0">
+         <children>
+            <Label prefHeight="30.0" prefWidth="258.0" text="Informacje o kliencie:">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="clientTextArea" prefHeight="262.0" prefWidth="252.0" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

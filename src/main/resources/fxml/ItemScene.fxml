@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ItemController">
+   <children>
+      <Label layoutX="305.0" layoutY="14.0" text="Menu zarządzania bazą przedmiotów:">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <Separator prefHeight="1.0" prefWidth="1035.0" AnchorPane.topAnchor="0.0" />
+      <TableView fx:id="itemTable" layoutX="277.0" layoutY="122.0" prefHeight="520.0" prefWidth="695.0">
+        <columns>
+            <TableColumn fx:id="item_idColumn" prefWidth="50.0" text="ID" />
+          <TableColumn fx:id="nameColumn" prefWidth="300.0" text="Nazwa" />
+            <TableColumn fx:id="bailColumn" prefWidth="120.0" text="Kaucja zwrotna" />
+            <TableColumn fx:id="rentalpriceColumn" prefWidth="120.0" text="Cena (24h)" />
+            <TableColumn fx:id="countColumn" prefWidth="105.0" text="Ilość" />
+        </columns>
+      </TableView>
+      <VBox layoutX="42.0" layoutY="122.0" prefHeight="392.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="234.0" promptText="Nazwa" />
+            <TextField fx:id="bailTextField" promptText="Kaucja zwrotna" />
+            <TextField fx:id="rentalpriceTextField" promptText="Cena (24h)" />
+            <TextField fx:id="countTextField" promptText="Ilość" />
+            <Button fx:id="addButton" mnemonicParsing="false" onAction="#addItem" prefHeight="25.0" prefWidth="214.0" text="Dodaj przedmiot" />
+            <Button fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="25.0" prefWidth="203.0" text="Edytuj przedmiot" />
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#deleteItem" prefHeight="25.0" prefWidth="208.0" text="Usuń przedmiot" />
+            <Button fx:id="cleanButton" mnemonicParsing="false" onAction="#clearForm" prefHeight="25.0" prefWidth="209.0" text="Wyczyść formularz" />
+         </children>
+      </VBox>
+      <HBox layoutX="277.0" layoutY="76.0" prefHeight="25.0" prefWidth="695.0" spacing="20.0">
+         <children>
+            <TextField fx:id="searchTextField" onKeyPressed="#search" prefHeight="25.0" prefWidth="514.0" promptText="Wyszukaj..." />
+            <Button fx:id="clearSearch" mnemonicParsing="false" onAction="#clearSearch" prefHeight="25.0" prefWidth="209.0" text="Wyczyść" />
+         </children>
+      </HBox>
+      <Button fx:id="refreshButton" layoutX="37.0" layoutY="617.0" mnemonicParsing="false" onAction="#refreshTable" prefHeight="25.0" prefWidth="209.0" text="Odśwież tabelę" />
+      <Label layoutX="37.0" layoutY="74.0" prefHeight="30.0" prefWidth="250.0" text="Dodaj/edytuj przedmiot:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -82,7 +82,7 @@ public class ClientEntity
     }
 
     @Basic
-    @Column(name = "nip", nullable = true)
+    @Column(name = "nip")
     public String getNip()
     {
         return nip;

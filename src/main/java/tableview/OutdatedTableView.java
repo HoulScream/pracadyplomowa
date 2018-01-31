@@ -5,17 +5,33 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class ReturnTableView {
+public class OutdatedTableView {
+    private IntegerProperty client_id;
     private IntegerProperty item_id;
     private StringProperty name;
     private StringProperty date;
     private IntegerProperty count;
+    private IntegerProperty days;
 
-    public ReturnTableView(int item_id, String name, String date, int count) {
+    public OutdatedTableView(int client_id, int item_id, String name, String date, int count, int days) {
+        this.client_id = new SimpleIntegerProperty(client_id);
         this.item_id = new SimpleIntegerProperty(item_id);
         this.name = new SimpleStringProperty(name);
         this.date = new SimpleStringProperty(date);
         this.count = new SimpleIntegerProperty(count);
+        this.days = new SimpleIntegerProperty(days);
+    }
+
+    public int getClient_id() {
+        return client_id.get();
+    }
+
+    public IntegerProperty client_idProperty() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id.set(client_id);
     }
 
     public int getItem_id() {
@@ -64,5 +80,17 @@ public class ReturnTableView {
 
     public void setCount(int count) {
         this.count.set(count);
+    }
+
+    public int getDays() {
+        return days.get();
+    }
+
+    public IntegerProperty daysProperty() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days.set(days);
     }
 }

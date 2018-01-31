@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import static common.ConfigurationBuilder.loadConfiguration;
+
 
 public class Main extends Application
 {
@@ -25,7 +27,8 @@ public class Main extends Application
     {
         emf = Persistence.createEntityManagerFactory("appdb");
 
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/common/LoginScene.fxml"));
+        loadConfiguration();
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/fxml/LoginScene.fxml"));
         AnchorPane anchorPane = loader.load();
         Scene scene = new Scene(anchorPane);
         primaryStage.setScene(scene);

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<BorderPane fx:id="userWindowScene" prefHeight="768.0" prefWidth="1024.0" style="-fx-background-image: url('/images/background.jpg')" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UserWindowController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+           <children>
+               <fx:include fx:id="userMenuBar" source="UserMenuBarScene.fxml"/>
+           </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <fx:include fx:id="userMainScene" source="UserMainScene.fxml" />
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

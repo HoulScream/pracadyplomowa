@@ -1,7 +1,6 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Table(name = "user", schema = "appdb")
@@ -51,20 +50,5 @@ public class UserEntity {
         this.admin = admin;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return userId == that.userId &&
-                admin == that.admin &&
-                Objects.equals(login, that.login) &&
-                Objects.equals(password, that.password);
-    }
 
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(userId, login, password, admin);
-    }
 }

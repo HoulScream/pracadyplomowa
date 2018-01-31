@@ -5,17 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.util.Objects;
-
 public class RentalTableView {
     private IntegerProperty item_id;
     private StringProperty name;
     private IntegerProperty rental_count;
 
-    public RentalTableView()
-    {
-
-    }
 
     public RentalTableView(int item_id, String name, int rental_count) {
         this.item_id = new SimpleIntegerProperty(item_id);
